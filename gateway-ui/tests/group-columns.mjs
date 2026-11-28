@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { createServer } from 'vite';
+import { GROUP_COLUMNS, GROUP_COLUMNS_KEY, readGroupColumns } from '../src/groupColumns.js';
+assert.equal(GROUP_COLUMNS.length, 7);
+assert.equal(Object.values(readGroupColumns()).filter(Boolean).length, 7);
+assert.equal(readGroupColumns({ getItem: () => '{broken' }).name, true);
+assert.equal(readGroupColumns({ getItem: () => { throw new Error('blocked'); } }).id, true);
+const saved = { getItem: key => { assert.equal(key, GROUP_COLUMNS_KEY); return JSON.stringify({ id: false, description: false }); } };
+assert.equal(readGroupColumns(saved).id, false);
+assert.equal(readGroupColumns(saved).name, true);
+assert.equal(Object.values(readGroupColumns({ getItem: () => JSON.stringify(Object.fromEntries(GROUP_COLUMNS.map(([key]) => [key, false]))) })).filter(Boolean).length, 7);
+const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
+try {
+    const { GroupColumnSelector, GroupActions, default: Groups } = await server.ssrLoadModule('/src/NodeGroups.jsx');
+    const actions = renderToStaticMarkup(React.createElement(GroupActions, {}));
+    for (const label of ['采样参数配置', '编辑分组', '删除分组']) assert.ok(actions.includes(`title="${label}"`) && actions.includes(`aria-label="${label}"`));
+    assert.equal((actions.match(/<button /g) || []).length, 3);
+    assert.equal((actions.match(/<svg /g) || []).length, 3);
+    const disabled = renderToStaticMarkup(React.createElement(GroupActions, { disabled: true }));
+    assert.equal((disabled.match(/disabled/g) || []).length, 3);
+    const columns = Object.fromEntries(GROUP_COLUMNS.map(([key]) => [key, key === 'name']));
+    const html = renderToStaticMarkup(React.createElement(GroupColumnSelector, { columns, onChange() {} }));
+    assert.match(html, /列：/);
+    assert.equal((html.match(/type="checkbox"/g) || []).length, 7);
+    assert.equal((html.match(/disabled/g) || []).length, 1);
+    for (const [, label] of GROUP_COLUMNS) assert.ok(html.includes(label));
+    globalThis.localStorage = saved;
+    const page = renderToStaticMarkup(React.createElement(Groups, { nodes: [] }));
+    assert.ok(!page.includes('<th>ID</th>'));
+    assert.ok(!page.includes('<th>描述</th>'));
+    assert.ok(page.includes('<th>组名</th>'));
+    delete globalThis.localStorage;
+    console.log('Group columns: labels, saved preferences, hidden headers, last-column guard and storage fallback PASS');
+} finally { await server.close(); }

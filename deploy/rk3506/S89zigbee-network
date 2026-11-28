@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# 为电脑与RK3506网线直连提供固定入口；保留ConnMan管理的其他地址。
+INTERFACE=eth0
+STATIC_ADDRESS=169.254.137.119
+PREFIX_LENGTH=16
+STATIC_CIDR="$STATIC_ADDRESS/$PREFIX_LENGTH"
+
+case "$1" in
+  start)
+        echo "Configuring Zigbee gateway network: $STATIC_CIDR"
+        ip link set "$INTERFACE" up || exit 1
+        ip address replace "$STATIC_CIDR" dev "$INTERFACE" || exit 1
+        ;;
+  stop)
+        echo "Removing Zigbee gateway network: $STATIC_CIDR"
+        ip address del "$STATIC_CIDR" dev "$INTERFACE" 2>/dev/null || true
+        ;;
+  restart)
+        "$0" stop
+        "$0" start
+        ;;
+  status)
+        if ip -4 address show dev "$INTERFACE" | grep -q "inet $STATIC_CIDR"; then
+            echo "Zigbee gateway network is configured: $STATIC_CIDR"
+        else
+            echo "Zigbee gateway network is not configured."
+            exit 1
+        fi
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+esac

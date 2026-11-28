@@ -1,0 +1,73 @@
+#!/bin/sh
+
+DAEMON=/opt/zigbee-gateway/gateway-server
+WORKDIR=/opt/zigbee-gateway
+PIDFILE=/var/run/zigbee-gateway.pid
+USB_SERIAL_DRIVER="$WORKDIR/drivers/cdc-acm.ko"
+
+prepare_usb_serial()
+{
+        # Optional locally built driver: do not replace any installed kernel module.
+        if [ -f "$USB_SERIAL_DRIVER" ] &&
+           [ ! -d /sys/module/cdc_acm ] &&
+           [ ! -d /sys/bus/usb/drivers/cdc_acm ]; then
+            echo "Loading USB CDC ACM driver..."
+            insmod "$USB_SERIAL_DRIVER" || return 1
+        fi
+
+        serial_path=$(sed -n 's/.*"serial_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
+            "$WORKDIR/gateway_config.json" | head -n 1)
+        case "$serial_path" in
+          /dev/ttyACM*|/dev/serial/by-id/*)
+                attempts=0
+                while [ ! -c "$serial_path" ] && [ "$attempts" -lt 10 ]; do
+                    sleep 1
+                    attempts=$((attempts + 1))
+                done
+                if [ ! -c "$serial_path" ]; then
+                    echo "Warning: $serial_path is unavailable; starting backend for configuration and diagnostics."
+                fi
+                ;;
+        esac
+        return 0
+}
+
+case "$1" in
+  start)
+        # S99appinit can call us after the normal init sequence; avoid duplicates.
+        if start-stop-daemon -K -t -x "$DAEMON" >/dev/null 2>&1; then
+            if start-stop-daemon -K -t -p "$PIDFILE" -x "$DAEMON" >/dev/null 2>&1; then
+                echo "Zigbee gateway is already running."
+                exit 0
+            fi
+            echo "Zigbee gateway is already running outside this service; stop the foreground process first."
+            exit 1
+        fi
+        echo "Starting Zigbee gateway..."
+        prepare_usb_serial || exit 1
+        mkdir -p "$WORKDIR/data" || exit 1
+        cd "$WORKDIR" || exit 1
+        start-stop-daemon -S -b -m -p "$PIDFILE" -x "$DAEMON" -o
+        ;;
+  stop)
+        echo "Stopping Zigbee gateway..."
+        start-stop-daemon -K -p "$PIDFILE" -x "$DAEMON" -o
+        rm -f "$PIDFILE"
+        ;;
+  restart)
+        "$0" stop
+        sleep 1
+        "$0" start
+        ;;
+  status)
+        if start-stop-daemon -K -t -p "$PIDFILE" -x "$DAEMON"; then
+            echo "Zigbee gateway is running."
+        else
+            echo "Zigbee gateway is stopped."
+            exit 1
+        fi
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+esac

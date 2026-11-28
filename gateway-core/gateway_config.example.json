@@ -1,0 +1,17 @@
+{
+  "serial_path": "/dev/ttyACM0",
+  "baud_rate": 921600,
+  "mqtt": {
+    "enabled": false,
+    "url": "mqtt://192.168.137.1:1883",
+    "gateway_id": "gw001",
+    "client_id": "gateway-gw001",
+    "username": "",
+    "password": "",
+    "protocol": "sparkplug_b",
+    "group_id": "factory01",
+    "keepalive_sec": 60,
+    "ack_timeout_ms": 15000,
+    "max_pending_bytes": 536870912
+  }
+}

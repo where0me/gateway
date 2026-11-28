@@ -1,0 +1,7 @@
+{
+  "name": "zigbee-gateway-sparkplug-monitor",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node monitor.mjs" },
+  "dependencies": { "mqtt": "^5.10.4", "protobufjs": "^7.5.4" }
+}

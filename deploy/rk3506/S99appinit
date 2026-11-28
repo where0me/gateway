@@ -1,0 +1,19 @@
+#! /bin/sh
+
+# 该入口来自固件原始启动列表，可在OverlayFS挂载后启动用户程序。
+case "$1" in
+  start)
+        echo "Starting Zigbee gateway application stack..."
+        /etc/init.d/S89zigbee-network start || exit 1
+        /etc/init.d/S50nginx start
+        /etc/init.d/S90zigbee-gateway start || exit 1
+        ;;
+  stop)
+        /etc/init.d/S90zigbee-gateway stop
+        /etc/init.d/S89zigbee-network stop
+        ;;
+  *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac

@@ -1,0 +1,41 @@
+.node-details-layout { --node-card-width: 340px; display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; margin-top: 12px; min-width: 0; }
+.node-details-item { display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 14px; align-items: flex-start; max-width: 100%; }
+.node-details-item > .compact-node { box-sizing: border-box; width: var(--node-card-width); max-width: 100%; flex: 0 0 var(--node-card-width); }
+.sensor-trend-panel { box-sizing: border-box; width: 400px; flex: 0 0 400px; max-width: 100%; min-width: 0; margin: 0; padding: 14px; background: #fff; border: 1px solid #e1e6ef; border-radius: 10px; box-shadow: 0 2px 8px #28344d05; color: #31435b; font-family: inherit; }
+.sensor-trend-header { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid #eef0f6; }
+.sensor-trend-heading-icon { width: 30px; height: 30px; border-radius: 7px; background: #f1edff; color: #7c63e8; display: grid; place-items: center; flex-shrink: 0; }
+.sensor-trend-header > div { min-width: 0; }
+.sensor-trend-header h3 { margin: 0 0 3px; font-size: 13px; font-weight: 600; }
+.sensor-trend-header h3 span { font-weight: 400; font-size: 11px; margin-left: 6px; color: #8995a8; }
+.sensor-trend-header p { margin: 0; font-size: 11px; color: #8190a3; overflow-wrap: anywhere; }
+.sensor-trend-close { margin-left: auto; width: 26px; height: 26px; display: grid; place-items: center; padding: 0; border: 1px solid #e6e9f0; border-radius: 6px; background: #fff; color: #8995a8; cursor: pointer; flex-shrink: 0; }
+.sensor-trend-close:hover { background: #f6f3ff; border-color: #c4b5fc; color: #7c63e8; }
+.sensor-trend-close:focus-visible, .compact-trend-button:focus-visible { outline: 2px solid #9a85ed; outline-offset: 3px; }
+.sensor-trend-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 0; font-size: 11px; }
+.sensor-trend-meta > span { background: #f5f3ff; color: #7962c7; padding: 4px 6px; border-radius: 4px; }
+.sensor-trend-meta small { display: flex; align-items: center; gap: 5px; color: #98a2b3; font-size: 11px; }
+.sensor-trend-legend { display: flex; gap: 12px; align-items: center; font-size: 11px; padding: 0 3px; }
+.sensor-trend-legend > span, .sensor-trend-values > span { display: inline-flex; align-items: center; gap: 6px; }
+.sensor-trend-legend i, .sensor-trend-values i { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.sensor-trend-legend > small { color: #98a2b3; margin-left: auto; font-size: 11px; }
+.sensor-trend-chart { width: 100%; height: auto; display: block; margin-top: 6px; overflow: visible; }
+.sensor-trend-chart text { fill: #8995a8; font-size: 12px; font-family: inherit; font-variant-numeric: tabular-nums; }
+.trend-grid-line { stroke: #edf0f6; stroke-dasharray: 4 5; }
+.trend-cursor { stroke: #c8bfdc; stroke-dasharray: 3 4; }
+.sensor-trend-chart circle:focus { outline: none; stroke: #333050; stroke-width: 3; }
+.sensor-trend-reading { margin-top: 6px; padding: 9px 10px; background: #f8f9fd; border: 1px solid #eef0f6; border-radius: 6px; }
+.sensor-trend-reading > div:first-child { display: flex; flex-wrap: wrap; gap: 6px; justify-content: space-between; font-size: 11px; }
+.sensor-trend-reading strong { font-weight: 600; }
+.sensor-trend-reading time { color: #8c97a9; font-size: 10px; }
+.sensor-trend-values { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 7px; font-size: 11px; }
+.sensor-trend-values strong { margin-left: 2px; font-size: 14px; color: #31435b; font-variant-numeric: tabular-nums; }
+.sensor-trend-values small { font-size: 10px; color: #8c97a9; }
+.sensor-trend-batch { display: block; margin-top: 7px; color: #9aa4b4; font-size: 9px; }
+.sensor-trend-error { margin: 0 0 12px; font-size: 12px; color: #b97532; }
+.sensor-trend-empty { min-height: 210px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #b7afce; }
+.sensor-trend-empty strong { font-size: 14px; font-weight: 500; color: #78869a; }
+.sensor-trend-empty span { font-size: 12px; color: #99a3b2; text-align: center; }
+.compact-sensors > div > strong { margin-left: auto; }
+.compact-sensors .compact-trend-button { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0; background: #f8f7fe; color: #9987c8; border: 1px solid #e9e3f8; border-radius: 5px; cursor: pointer; align-self: center; }
+.compact-sensors .compact-trend-button:hover, .compact-sensors .compact-trend-button.is-active { background: #f0eaff; color: #7957d5; border-color: #b9a6ed; }
+@media (max-width: 520px) { .sensor-trend-panel { flex-basis: 100%; padding: 12px; } }

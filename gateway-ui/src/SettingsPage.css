@@ -1,0 +1,91 @@
+.gateway-settings { color: #334155; font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif; font-size: 13px; padding-top: 2px; }
+.gateway-settings *, .gateway-settings *::before, .gateway-settings *::after { box-sizing: border-box; }
+.settings-tabs { display: flex; gap: 24px; margin-bottom: 20px; border-bottom: 1px solid #e0e5ee; }
+.settings-tabs > button { display: inline-flex; align-items: center; gap: 8px; padding: 12px 2px 14px; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; color: #7b879a; font: inherit; cursor: pointer; }
+.settings-tabs > button.is-active { color: #7656d9; border-bottom-color: #8063e5; font-weight: 600; }
+.settings-tabs > button:hover { color: #7656d9; }
+.gateway-settings button:focus-visible, .gateway-settings summary:focus-visible, .gateway-settings input:focus-visible, .gateway-settings select:focus-visible { outline: 2px solid #a38ae8; outline-offset: 3px; }
+.mqtt-panel { border: 1px solid #e1e6ee; border-radius: 12px; background: #fff; box-shadow: 0 3px 14px #26384a03; overflow: hidden; }
+.mqtt-panel-heading { display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #edf0f5; }
+.mqtt-heading-icon { display: grid; place-items: center; width: 40px; height: 40px; background: #f2efff; color: #8061dc; border: 1px solid #eae4fc; border-radius: 10px; }
+.mqtt-panel-heading h2 { margin: 0 0 4px; color: #344258; font-size: 16px; font-weight: 650; }
+.mqtt-panel-heading p { margin: 0; color: #8995a6; font-size: 12px; }
+.mqtt-status { display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 16px; background: #f1f3f6; color: #7c8797; font-size: 11px; white-space: nowrap; }
+.mqtt-status > span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.mqtt-status.is-connected { color: #13845f; background: #eaf7f1; }
+.mqtt-status.is-failed { color: #c95160; background: #fff0f2; }
+.mqtt-enable { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; color: #596b81; white-space: nowrap; cursor: pointer; }
+.mqtt-enable input { appearance: none; width: 36px; height: 21px; margin: 0; border-radius: 14px; background: #bdc6d3; position: relative; cursor: pointer; transition: background .15s; }
+.mqtt-enable input::before { content: ''; position: absolute; left: 3px; top: 3px; width: 15px; height: 15px; background: white; border-radius: 50%; box-shadow: 0 1px 3px #0002; transition: transform .15s; }
+.mqtt-enable input:checked { background: #8061dc; }
+.mqtt-enable input:checked::before { transform: translateX(15px); }
+.mqtt-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(270px, 1fr); }
+.mqtt-config { padding: 24px; min-width: 0; }
+.mqtt-section-label { display: flex; align-items: center; gap: 7px; color: #748098; margin-bottom: 18px; }
+.mqtt-section-label h3 { font-size: 13px; font-weight: 600; color: #4b5e76; margin: 0; }
+.mqtt-section-label > span { margin-left: auto; color: #98a2b1; font-size: 11px; }
+.mqtt-section-label .mqtt-protocol { font-size: 10px; font-weight: 500; letter-spacing: .4px; background: #f2f4f8; border-radius: 4px; padding: 4px 7px; color: #758299; }
+.mqtt-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
+.mqtt-server-fields { grid-template-columns: minmax(0, 1fr) 112px; margin-bottom: 18px; }
+.mqtt-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; color: #607087; font-size: 12px; }
+.mqtt-field > span { display: flex; gap: 8px; }
+.mqtt-field > span small { color: #a0a9b7; font-size: 11px; }
+.mqtt-input-wrap { position: relative; }
+.mqtt-field input { width: 100%; min-width: 0; height: 38px; padding: 0 11px; border: 1px solid #dce2ec; border-radius: 6px; background: #fff; color: #3d4f66; font: inherit; font-size: 13px; transition: box-shadow .15s, border-color .15s; }
+.mqtt-field input:hover:not(:disabled) { border-color: #b5a5de; }
+.mqtt-field input:focus { border-color: #a38ae8; box-shadow: 0 0 0 3px #8061dc0c; }
+.mqtt-field input::placeholder { color: #a2acba; font-size: 12px; }
+.mqtt-field input[aria-invalid=true] { border-color: #d77583; }
+.mqtt-field input[name=password] { padding-right: 38px; }
+.mqtt-field-wide { grid-column: 1 / -1; }
+.mqtt-field select { width: 100%; min-width: 0; height: 38px; padding: 0 11px; border: 1px solid #dce2ec; border-radius: 6px; background: #fff; color: #3d4f66; font: inherit; font-size: 13px; }
+.mqtt-field-hint, .mqtt-field-error { font-size: 11px; line-height: 1.5; color: #95a0af; }
+.mqtt-field-error { color: #bd4357; }
+.mqtt-password-eye { position: absolute; right: 5px; top: 4px; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; color: #94a0b1; background: transparent; border: 0; border-radius: 4px; cursor: pointer; }
+.mqtt-password-eye:hover { color: #7656d9; background: #f7f5fc; }
+.mqtt-advanced { margin-top: 22px; border-top: 1px solid #edf0f5; }
+.mqtt-advanced summary { display: flex; align-items: center; gap: 8px; list-style: none; cursor: pointer; padding: 15px 0; color: #748198; font-size: 12px; }
+.mqtt-advanced summary::-webkit-details-marker { display: none; }
+.mqtt-advanced summary svg:last-child { margin-left: auto; transition: transform .15s; }
+.mqtt-advanced[open] summary svg:last-child { transform: rotate(180deg); }
+.mqtt-advanced > .mqtt-fields { padding: 3px 0 12px; }
+.mqtt-security-note { display: flex; align-items: flex-start; gap: 7px; margin: 3px 0 0; color: #98a3b1; font-size: 11px; line-height: 1.7; }
+.mqtt-security-note svg { margin-top: 2px; flex-shrink: 0; }
+.mqtt-delivery { min-width: 0; margin: 24px 24px 24px 0; padding: 18px; background: #f8f9fc; border: 1px solid #e9edf4; border-radius: 9px; }
+.mqtt-publish-properties { display: grid; gap: 15px; margin: 22px 0; font-size: 12px; }
+.mqtt-publish-properties > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mqtt-publish-properties dt { color: #8793a5; }
+.mqtt-publish-properties dd { margin: 0; color: #52637b; }
+.mqtt-publish-properties dd small { margin-left: 5px; font-size: 10px; color: #8b98aa; }
+.mqtt-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-top: 1px solid #edf0f5; background: #fdfdfe; }
+.mqtt-actions > div { display: flex; gap: 10px; }
+.mqtt-draft-state { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #94a0af; }
+.mqtt-unsaved-dot { height: 6px; width: 6px; border-radius: 50%; background: #d5a35c; }
+.mqtt-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; padding: 0 12px; border: 1px solid #dce2ed; border-radius: 6px; background: white; color: #6c7a91; font: inherit; font-size: 12px; cursor: pointer; transition: background .15s; }
+.mqtt-button:hover:not(:disabled) { background: #f7f4ff; border-color: #b9a9e5; color: #7656d9; }
+.mqtt-button-primary { color: white; background: #7b5bd6; border-color: #7b5bd6; box-shadow: 0 2px 4px #7b5bd618; }
+.mqtt-button-primary:hover:not(:disabled) { background: #6c4cc5; border-color: #6c4cc5; color: white; }
+.mqtt-settings button:disabled, .mqtt-settings input:disabled { opacity: .5; cursor: not-allowed; }
+.mqtt-load-state { padding: 28px; color: #8793a5; }
+.mqtt-load-state p { display: flex; align-items: center; gap: 10px; }
+.mqtt-runtime-note { margin: 18px 0 0; padding-top: 12px; border-top: 1px solid #edf0f5; font-size: 11px; line-height: 1.8; color: #9b7b53; }
+.mqtt-notice { min-height: 30px; padding: 6px 2px; font-size: 11px; line-height: 1.65; color: #8a75b7; }
+.mqtt-upload-status { padding: 18px 24px 22px; margin-bottom: 16px; }
+.mqtt-upload-status > header { display: flex; align-items: center; gap: 8px; color: #8b78be; }
+.mqtt-upload-status h3 { font-size: 13px; color: #53647d; margin: 0; font-weight: 600; }
+.mqtt-upload-status > header > span { margin-left: auto; color: #a0a8b5; font-size: 11px; }
+.mqtt-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 22px; }
+.mqtt-stats > div { display: flex; flex-direction: column; gap: 10px; padding-left: 22px; border-left: 1px solid #ebedf3; }
+.mqtt-stats > div:first-child { padding-left: 0; border: 0; }
+.mqtt-stats > div > span { color: #94a0b0; font-size: 11px; }
+.mqtt-stats strong { display: flex; align-items: center; gap: 8px; font-weight: 500; color: #65758d; font-size: 20px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.mqtt-stats strong small { align-self: end; color: #a0a9b5; font-size: 10px; font-weight: 400; line-height: 1.8; }
+.mqtt-stats .mqtt-time { font-size: 18px; flex-wrap: wrap; }
+.mqtt-stats .mqtt-text-success { color: #159a74; }
+.mqtt-failure { margin-top: 16px; padding: 10px 12px; border: 1px solid #f1d8dd; border-radius: 6px; background: #fff6f8; color: #bd5467; font-size: 12px; }
+@keyframes mqtt-spin { to { transform: rotate(360deg); } }
+.mqtt-spin { animation: mqtt-spin 1s linear infinite; }
+@media (max-width: 1100px) { .mqtt-layout { grid-template-columns: minmax(0, 1.3fr) minmax(245px, 1fr); } .mqtt-config { padding: 20px; } .mqtt-delivery { margin: 20px 20px 20px 0; padding: 15px; } }
+@media (max-width: 880px) { .mqtt-layout { grid-template-columns: minmax(0, 1fr); } .mqtt-delivery { margin: 0 20px 20px; } .mqtt-publish-properties { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 25px; } }
+@media (max-width: 560px) { .mqtt-panel-heading { padding: 16px; flex-wrap: wrap; gap: 10px; } .mqtt-heading-icon { width: 34px; height: 34px; } .mqtt-status { margin-left: auto; } .mqtt-enable { flex-basis: 100%; justify-content: flex-end; } .mqtt-fields { grid-template-columns: minmax(0, 1fr); } .mqtt-server-fields { grid-template-columns: minmax(0, 1fr) 85px; } .mqtt-config { padding: 16px; } .mqtt-delivery { margin: 0 16px 16px; } .mqtt-publish-properties { grid-template-columns: minmax(0, 1fr); } .mqtt-actions { padding: 14px 16px; flex-wrap: wrap; } .mqtt-actions > div { width: 100%; } .mqtt-actions button { flex: 1; } .mqtt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; } .mqtt-stats > div:nth-child(3) { border-left: 0; padding-left: 0; } .mqtt-upload-status { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { .mqtt-spin { animation: none; } .mqtt-enable input, .mqtt-enable input::before { transition: none; } }

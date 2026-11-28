@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { interviewLabel, interviewSummary } from '../src/nodeInterview.js';
+assert.equal(interviewLabel(), '尚未识别');
+assert.equal(interviewLabel({state:'failed'}), '识别未完成');
+assert.equal(interviewLabel({state:'standard'}), '标准设备（无采集协议）');
+assert.match(interviewSummary({protocol:3,capabilities:31,endpoints:{1:{profile:260,input:[0,3,1026,64528,64529],output:[]}}}), /0xFC10, 0xFC11/);
+assert.match(interviewSummary({state:'failed'}), /不会删除节点/);
+const app=fs.readFileSync(new URL('../src/App.jsx',import.meta.url),'utf8');
+assert.match(app,/PendingAdmissionPanel/);
+assert.match(app,/scan_status/);
+assert.doesNotMatch(app,/现有节点及待授权节点不受影响/);
+assert.match(app,/setInterval\(refresh, 3000\)/);
+console.log('Manual admission UI, actual permit state and cluster presentation PASS');

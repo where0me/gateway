@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { createServer } from 'vite';
+import { NODE_COLUMNS, readNodeColumns, nodeLastSeen, batteryText, networkAddress } from '../src/nodeManagementColumns.js';
+
+assert.equal(NODE_COLUMNS.length, 11);
+globalThis.localStorage = { getItem: () => '{broken' };
+assert.equal(Object.values(readNodeColumns()).filter(Boolean).length, 11);
+globalThis.localStorage = { getItem: () => JSON.stringify({ lqi: false }) };
+assert.equal(readNodeColumns().lqi, false);
+globalThis.localStorage = { getItem: () => JSON.stringify(Object.fromEntries(NODE_COLUMNS.map(([key]) => [key, false]))) };
+assert.equal(Object.values(readNodeColumns()).filter(Boolean).length, 11);
+assert.equal(readNodeColumns().networkAddress, true);
+assert.equal(networkAddress('818C').hex, '0x818C');
+assert.equal(networkAddress('1234').decimal, 0x1234);
+assert.equal(networkAddress(null), null);
+assert.equal(networkAddress(0xffff), null);
+assert.equal(nodeLastSeen({ last_active: 30, link_updated_at: 10 }, 0), 30000);
+delete globalThis.localStorage;
+assert.equal(nodeLastSeen({ last_collection: 12345 }, 0), 0);
+assert.equal(nodeLastSeen({ link_updated_at: 10 }, 20000), 20000);
+assert.equal(batteryText({ power_source: 4 }), 'N/A');
+assert.equal(batteryText({ power_source: 3 }), '未上报');
+assert.equal(batteryText({ power_source: 3, battery_percentage: 0 }), '0%');
+assert.equal(batteryText({ power_source: 3, battery_percentage: 101 }), '未上报');
+const server = await createServer({ server: { middlewareMode: true }, appType: 'custom', ssr: { external: ['react', 'react-dom', 'lucide-react'] } });
+try {
+    const { NodeColumnSelector, NodeManagementField } = await server.ssrLoadModule('/src/NodeManagementFields.jsx');
+    const columns = Object.fromEntries(NODE_COLUMNS.map(([key]) => [key, key === 'name']));
+    const selector = renderToStaticMarkup(React.createElement(NodeColumnSelector, { columns, onChange() {}, renaming: false }));
+    assert.equal((selector.match(/type="checkbox"/g) || []).length, 11);
+    assert.match(selector, /网络地址/);
+    assert.match(selector, /disabled/);
+    const render = (field, node) => renderToStaticMarkup(React.createElement(NodeManagementField, { field, node, now: 20000 }));
+    assert.match(render('lqi', { status: 'Offline', lqi: 220 }), /离线/);
+    assert.doesNotMatch(render('lqi', { status: 'Offline', lqi: 220 }), /220/);
+    assert.match(render('lqi', { status: 'Online', lqi: 0 }), />0</);
+    assert.match(render('rssi', { status: 'Online', rssi: -49 }), /-49 dBm/);
+    assert.match(render('rssi', { status: 'Online', rssi: -128 }), /未上报/);
+    assert.match(render('rssi', { status: 'Offline', rssi: -49 }), /离线/);
+    assert.match(render('availability', { status: 'Offline', is_alarm: true }), /离线/);
+    assert.match(render('power', { power_source: 4 }), /ST-Link/);
+    assert.match(render('lastSeen', { link_updated_at: 10 }), /10秒前/);
+    assert.match(render('networkAddress', { short_addr: 0x818c }), /0x818C/);
+    console.log('Node columns: preferences, offline LQI, availability, last seen, external power and battery PASS');
+} finally { await server.close(); }
