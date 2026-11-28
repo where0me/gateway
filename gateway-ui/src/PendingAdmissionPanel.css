@@ -1,0 +1,46 @@
+.pending-admission {
+    overflow: hidden;
+    border: 1px solid #dfe6f1;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 6px #24385604;
+    color: #26364e;
+    font-family: inherit;
+}
+.pending-admission-heading { display: flex; align-items: center; gap: 10px; padding: 18px 22px; border-bottom: 1px solid #edf1f7; }
+.pending-admission-heading h3 { margin: 0; font-size: 14px; font-weight: 650; }
+.pending-admission-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; color: #8265ed; background: #f1edff; }
+.pending-admission-count { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 22px; padding: 0 7px; border-radius: 11px; box-sizing: border-box; background: #f1edff; color: #8061db; font-size: 12px; font-variant-numeric: tabular-nums; }
+.pending-admission-refresh { display: inline-flex; align-items: center; justify-content: center; gap: 6px; margin-left: auto; min-width: 86px; min-height: 32px; padding: 0 10px; border: 1px solid #e1e7f0; border-radius: 6px; background: #fff; color: #73849b; font: inherit; font-size: 12px; cursor: pointer; }
+.pending-admission-refresh:hover:not(:disabled) { border-color: #c9b8f3; background: #faf8ff; color: #7752db; }
+.pending-admission-refresh:focus-visible { outline: 2px solid #a38ae9; outline-offset: 3px; }
+.pending-admission-refresh:disabled { opacity: .55; cursor: not-allowed; }
+.pending-admission-scroll { overflow-x: auto; padding: 0 22px; }
+.pending-admission-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+.pending-admission-table th { height: 46px; padding: 0 14px; color: #8291a5; font-size: 12px; font-weight: 500; white-space: nowrap; border-bottom: 1px solid #edf1f7; }
+.pending-admission-table td { height: 64px; padding: 8px 14px; box-sizing: border-box; border-bottom: 1px solid #edf1f7; white-space: nowrap; }
+.pending-admission-table th:first-child, .pending-admission-table td:first-child { padding-left: 0; }
+.pending-admission-table th:last-child, .pending-admission-table td:last-child { padding-right: 0; text-align: right; }
+.pending-admission-table tbody tr:last-child td { border-bottom: 0; }
+.pending-admission-table tbody tr:not(.pending-admission-empty):hover { background: #faf9ff; }
+.pending-admission-name { font-size: 13px; font-weight: 600; }
+.pending-admission-model { color: #718198; }
+.pending-admission-mac { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; color: #4d5f79; }
+.pending-admission-signal { display: inline-flex; align-items: center; gap: 6px; color: #53667c; font-variant-numeric: tabular-nums; }
+.pending-admission-signal svg { color: #16b790; }
+.pending-admission-signal.is-low svg { color: #f68a9e; }
+.pending-admission-rssi { font-variant-numeric: tabular-nums; }
+.pending-admission-rssi span { color: #8b99ad; font-size: 11px; }
+.pending-admission-confirm { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 33px; padding: 0 12px; border: 1px solid #d9ceff; border-radius: 6px; background: #f5f1ff; color: #7752db; font: inherit; font-size: 12px; cursor: pointer; transition: background .15s, border-color .15s; }
+.pending-admission-confirm:hover:not(:disabled) { background: #eee6ff; border-color: #bba4f5; }
+.pending-admission-confirm:focus-visible { outline: 2px solid #a38ae9; outline-offset: 3px; }
+.pending-admission-confirm:disabled { opacity: .55; cursor: not-allowed; }
+.pending-admission-error { margin: 14px 22px 0; padding: 10px 12px; color: #ce4665; background: #fff3f5; border: 1px solid #ffe2e9; border-radius: 6px; font-size: 12px; }
+.pending-admission-spinner { animation: pending-admission-spin 1s linear infinite; }
+@keyframes pending-admission-spin { to { transform: rotate(360deg); } }
+@media (max-width: 640px) {
+    .pending-admission-heading { padding: 14px 16px; }
+    .pending-admission-scroll { padding: 0 16px; }
+    .pending-admission-table { min-width: 700px; }
+}
+@media (prefers-reduced-motion: reduce) { .pending-admission-spinner { animation: none; } }
